@@ -64,6 +64,8 @@ class App extends React.Component {
         className={this.state.class + " competitor" + key}
       />
     ));
+    const arr = this.state.names;
+    //you might have to make this a for loop ALSO IT CRASHES
     return <div className="main">{bracketList}</div>;
   }
   constructor(props) {
@@ -71,9 +73,17 @@ class App extends React.Component {
     this.state = {
       numOfSeeds: 0,
       seedNum: [],
+      newName: "",
       names: [],
       class: "container"
     };
+  }
+
+  handleChangeOfInput(e) {
+    const name = e.target.value;
+    this.setState({
+      newName: name
+    });
   }
 
   handleChange(e) {
@@ -84,18 +94,41 @@ class App extends React.Component {
 
     if (newNum === "4") {
       this.setState({
-        names: Array(6).fill(" "),
+        names: Array(6).fill(),
         class: "bracket4"
       });
     }
   }
 
   handleClickOfInput(e) {
-    const newNames = [];
-    newNames.push(e.target.value);
-    this.setState({
-      names: newNames
-    });
+    const newNames = this.state.names;
+    const arrLength = this.state.names.length;
+    const index = Math.random() * arrLength;
+    console.log(index);
+    if (
+      newNames[index] === undefined &&
+      Math.floor(index) !== 5 &&
+      Math.floor(index) !== 4
+    ) {
+      if (newNames.indexOf(this.state.newName) <= 0) {
+        console.log("inside");
+        newNames.splice(index, 1, this.state.newName);
+        this.setState({
+          names: newNames
+        });
+      }
+    } else if (Math.floor(index) !== 5) {
+      const newIndex = 0;
+      for (var i = 0; i < this.state.names.length - 1; i++) {
+        if (newNames[i] === undefined && i !== 4 && i !== 5) {
+          newIndex = i;
+        }
+      }
+      newNames.splice(newIndex, 1, this.state.newName);
+      this.setState({
+        names: newNames
+      });
+    }
   }
 
   render() {
