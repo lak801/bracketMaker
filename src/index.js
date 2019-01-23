@@ -4,9 +4,12 @@ import ReactDOM from "react-dom";
 
 import "./styles.css";
 let Competitor = styled.button`
+  color: white;
+  font-size: 20px;
   text-align: center;
   grid-column-start: ${props => props.indexOfColumn};
   grid-row-start: ${props => props.indexOfRow};
+  background-color: ${props => props.isClickedBracket4};
 `;
 const Main = styled.div`
   grid-template-columns: ${props => props.mainIndexOfColumn};
@@ -48,25 +51,23 @@ class App extends React.Component {
       />
     );
   }
-  bracketInputs = {
-    bracket4MainColumn: "30% 20% 20% 30%",
-    bracket4Column: [1, 1, 4, 4, 2, 3],
-    bracket4Row: [2, 4, 2, 4, 3, 3]
-  };
+
   listBrackets() {
     const bracketList = this.state.names.map((text, key) => {
       return (
         <Competitor
-          indexOfColumn={this.bracketInputs.bracket4Column[key]}
-          indexOfRow={this.bracketInputs.bracket4Row[key]}
+          indexOfColumn={this.state.bracket4Column[key]}
+          indexOfRow={this.state.bracket4Row[key]}
           key={key}
+          isClickedBracket4={this.state.isClickedBracket4[key]}
+          onClick={e => this.handleClickOfSeed(e, key)}
         >
           {text}
         </Competitor>
       );
     });
     return (
-      <Main mainIndexOfColumn={this.bracketInputs.bracket4MainColumn}>
+      <Main mainIndexOfColumn={this.state.bracket4MainColumn}>
         {bracketList}{" "}
       </Main>
     );
@@ -78,8 +79,11 @@ class App extends React.Component {
       seedNum: [],
       newName: "",
       names: [],
-      vacancy: true,
-      class: "container"
+      isClickedBracket4: ["blue", "blue", "blue", "blue", "blue", "blue"],
+      class: "container",
+      bracket4MainColumn: "30% 20% 20% 30%",
+      bracket4Column: [1, 1, 4, 4, 2, 3],
+      bracket4Row: [2, 4, 2, 4, 3, 3]
     };
   }
 
@@ -104,6 +108,22 @@ class App extends React.Component {
     }
   }
 
+  handleClickOfSeed(e, key) {
+    let arr = this.state.names;
+    let newArr = this.state.names;
+    let clickedArr = this.state.isClickedBracket4;
+    if (this.state.numOfSeeds === "4") {
+      if (key === 0) {
+        newArr[4] = arr[key];
+        newArr[key] = undefined;
+        clickedArr[key] = "gold";
+      }
+    }
+    this.setState({
+      names: newArr
+    });
+  }
+
   handleClickOfInput(e) {
     const newNames = this.state.names;
     const arrLength = this.state.names.length;
@@ -113,7 +133,7 @@ class App extends React.Component {
       newNames[index] !== undefined ||
       index === arrLength - 1 ||
       index === arrLength - 2 ||
-      (!newNames.indexOf(this.state.newName) < 0 && index < 0)
+      (!newNames.indexOf(this.state.newName) < 0 || index < 0)
     ) {
       index = Math.floor(Math.random() * arrLength - 1);
     }
