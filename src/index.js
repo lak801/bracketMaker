@@ -1,22 +1,21 @@
-/* To Do: 
-    add the css first off
-    then connect the changing of the option dropdown to css
-    once the css changes and the buttons are rendered with no text then attach the
-      on input function to randomly push the array pieces one by one into the predetermined buttons
-    after that, you're done! ... easier commented than done I guess... */
-
+import styled, { css } from "styled-components";
 import React from "react";
 import ReactDOM from "react-dom";
 
 import "./styles.css";
-
-function Seed(props) {
-  return (
-    <button className=" " onClick={props.onClick}>
-      {props.value}
-    </button>
-  );
-}
+let Competitor = styled.button`
+  text-align: center;
+  grid-column-start: ${props => props.indexOfColumn};
+  grid-row-start: ${props => props.indexOfRow};
+`;
+const Main = styled.div`
+  grid-template-columns: ${props => props.mainIndexOfColumn};
+  grid-template-rows: 20% 20% 20% 20% 20%;
+  background-color: #2196f3;
+  display: grid;
+  height: 100vh;
+  text-align: center;
+`;
 
 function Input(props) {
   return (
@@ -39,13 +38,6 @@ function Input(props) {
   );
 }
 
-function Competitor(props) {
-  return (
-    <div className={props.className}>
-      <button>{props.name}</button>
-    </div>
-  );
-}
 class App extends React.Component {
   renderInput() {
     return (
@@ -56,17 +48,28 @@ class App extends React.Component {
       />
     );
   }
+  bracketInputs = {
+    bracket4MainColumn: "30% 20% 20% 30%",
+    bracket4Column: [1, 1, 4, 4, 2, 3],
+    bracket4Row: [2, 4, 2, 4, 3, 3]
+  };
   listBrackets() {
-    const bracketList = this.state.names.map((text, key) => (
-      <Competitor
-        name={text}
-        key={key}
-        className={this.state.class + " competitor" + key}
-      />
-    ));
-    const arr = this.state.names;
-    //you might have to make this a for loop ALSO IT CRASHES
-    return <div className="main">{bracketList}</div>;
+    const bracketList = this.state.names.map((text, key) => {
+      return (
+        <Competitor
+          indexOfColumn={this.bracketInputs.bracket4Column[key]}
+          indexOfRow={this.bracketInputs.bracket4Row[key]}
+          key={key}
+        >
+          {text}
+        </Competitor>
+      );
+    });
+    return (
+      <Main mainIndexOfColumn={this.bracketInputs.bracket4MainColumn}>
+        {bracketList}{" "}
+      </Main>
+    );
   }
   constructor(props) {
     super(props);
@@ -75,6 +78,7 @@ class App extends React.Component {
       seedNum: [],
       newName: "",
       names: [],
+      vacancy: true,
       class: "container"
     };
   }
@@ -103,32 +107,22 @@ class App extends React.Component {
   handleClickOfInput(e) {
     const newNames = this.state.names;
     const arrLength = this.state.names.length;
-    const index = Math.random() * arrLength;
+    let index = Math.floor(Math.random() * arrLength - 1);
     console.log(index);
-    if (
-      newNames[index] === undefined &&
-      Math.floor(index) !== 5 &&
-      Math.floor(index) !== 4
+    while (
+      newNames[index] !== undefined ||
+      index === arrLength - 1 ||
+      index === arrLength - 2 ||
+      (!newNames.indexOf(this.state.newName) < 0 && index < 0)
     ) {
-      if (newNames.indexOf(this.state.newName) <= 0) {
-        console.log("inside");
-        newNames.splice(index, 1, this.state.newName);
-        this.setState({
-          names: newNames
-        });
-      }
-    } else if (Math.floor(index) !== 5) {
-      const newIndex = 0;
-      for (var i = 0; i < this.state.names.length - 1; i++) {
-        if (newNames[i] === undefined && i !== 4 && i !== 5) {
-          newIndex = i;
-        }
-      }
-      newNames.splice(newIndex, 1, this.state.newName);
-      this.setState({
-        names: newNames
-      });
+      index = Math.floor(Math.random() * arrLength - 1);
     }
+    console.log(index);
+    newNames.splice(index, 1, this.state.newName);
+    this.setState({
+      names: newNames
+    });
+    console.log(this.state.names);
   }
 
   render() {
