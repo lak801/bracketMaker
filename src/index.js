@@ -60,7 +60,7 @@ class App extends React.Component {
           indexOfRow={this.state.bracket4Row[key]}
           key={key}
           isClickedBracket4={this.state.isClickedBracket4[key]}
-          onClick={e => this.handleClickOfSeed(e, key)}
+          onClick={e => this.handleClickOfSeed(e, key, text)}
         >
           {text}
         </Competitor>
@@ -108,15 +108,42 @@ class App extends React.Component {
     }
   }
 
-  handleClickOfSeed(e, key) {
+  handleClickOfSeed(e, key, text) {
     let arr = this.state.names;
     let newArr = this.state.names;
     let clickedArr = this.state.isClickedBracket4;
-    if (this.state.numOfSeeds === "4") {
-      if (key === 0) {
+    if (this.state.numOfSeeds === "4" && text !== undefined) {
+      if (key === 0 && clickedArr[key + 1] !== "gold") {
         newArr[4] = arr[key];
         newArr[key] = undefined;
         clickedArr[key] = "gold";
+        clickedArr[key + 1] = "red";
+      }
+      if (key === 1 && clickedArr[key - 1] !== "gold") {
+        newArr[4] = arr[key];
+        newArr[key] = undefined;
+        clickedArr[key] = "gold";
+        clickedArr[key - 1] = "red";
+      }
+      if (key === 2 && clickedArr[key + 1] !== "gold") {
+        newArr[5] = arr[key];
+        newArr[key] = undefined;
+        clickedArr[key] = "gold";
+        clickedArr[key + 1] = "red";
+      }
+      if (key === 3 && clickedArr[key - 1] !== "gold") {
+        newArr[5] = arr[key];
+        newArr[key] = undefined;
+        clickedArr[key] = "gold";
+        clickedArr[key - 1] = "red";
+      }
+      if (key === 4 && clickedArr[key + 1] !== "gold") {
+        clickedArr[key] = "gold";
+        clickedArr[key + 1] = "red";
+      }
+      if (key === 5 && clickedArr[key - 1] !== "gold") {
+        clickedArr[key] = "gold";
+        clickedArr[key - 1] = "red";
       }
     }
     this.setState({
@@ -133,7 +160,8 @@ class App extends React.Component {
       newNames[index] !== undefined ||
       index === arrLength - 1 ||
       index === arrLength - 2 ||
-      (!newNames.indexOf(this.state.newName) < 0 || index < 0)
+      !newNames.indexOf(this.state.newName) < 0 ||
+      index < 0
     ) {
       index = Math.floor(Math.random() * arrLength - 1);
     }
