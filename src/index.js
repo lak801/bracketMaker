@@ -27,13 +27,12 @@ function Input(props) {
         <option value="0">0</option>
         <option value="4">4</option>
         <option value="8">8</option>
-        <option value="12">12</option>
         <option value="16">16</option>
       </select>
       <input
         type="text"
         id="number"
-        placeholder="Input Your Values"
+        placeholder="    Input Your Competitors"
         onChange={props.onChangeOfInput}
         onKeyPress={props.onEnter}
       />
@@ -62,6 +61,9 @@ class App extends React.Component {
     if (this.state.numOfSeeds === "8") {
       bracketType = this.state.bracket8;
     }
+    if (this.state.numOfSeeds === "16") {
+      bracketType = this.state.bracket16;
+    }
     const bracketList = this.state.names.map((text, key) => {
       return (
         <Competitor
@@ -71,7 +73,7 @@ class App extends React.Component {
           isClicked={this.state.isClicked[key]}
           onClick={e => this.handleClickOfSeed(e, key, text)}
         >
-          {text}
+          {key}
         </Competitor>
       );
     });
@@ -106,10 +108,72 @@ class App extends React.Component {
         mainRow: "20% 20% 20% 20% 20%"
       },
       bracket16: {
-        mainColumn: "20% 15% 15% 15% 15% 20%",
-        column: [1, 1, 1, 1, 6, 6, 6, 6, 2, 2, 5, 5, 3, 4],
-        row: [1, 2, 4, 5, 1, 2, 4, 5, 2, 4, 2, 4, 3, 3],
-        mainRow: "20% 20% 20% 20% 20%"
+        mainColumn: "12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%",
+        column: [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          2,
+          2,
+          2,
+          2,
+          7,
+          7,
+          7,
+          7,
+          3,
+          3,
+          6,
+          6,
+          4,
+          5
+        ],
+        row: [
+          1,
+          2,
+          4,
+          5,
+          7,
+          8,
+          10,
+          11,
+          1,
+          2,
+          4,
+          5,
+          7,
+          8,
+          10,
+          11,
+          2,
+          4,
+          8,
+          10,
+          2,
+          4,
+          8,
+          10,
+          3,
+          9,
+          3,
+          9,
+          6,
+          6
+        ],
+        mainRow: "9% 9% 9% 9% 9% 9% 9% 9% 9% 9% 9%"
       }
     };
   }
@@ -181,8 +245,8 @@ class App extends React.Component {
     }
     if (newNum === "16") {
       this.setState({
-        names: Array(14).fill(),
-        isClicked: Array(14).fill("blue")
+        names: Array(30).fill(),
+        isClicked: Array(30).fill("blue")
       });
     }
   }
