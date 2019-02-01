@@ -24,7 +24,7 @@ function Input(props) {
   return (
     <div>
       <select onChange={props.onChange}>
-        <option value="0">0</option>
+        <option />
         <option value="4">4</option>
         <option value="8">8</option>
         <option value="16">16</option>
@@ -73,7 +73,7 @@ class App extends React.Component {
           isClicked={this.state.isClicked[key]}
           onClick={e => this.handleClickOfSeed(e, key, text)}
         >
-          {key}
+          {text}
         </Competitor>
       );
     });
@@ -99,12 +99,14 @@ class App extends React.Component {
         mainColumn: "30% 20% 20% 30%",
         column: [1, 1, 4, 4, 2, 3],
         row: [2, 4, 2, 4, 3, 3],
+        match: [4, 4, 5, 5],
         mainRow: "20% 20% 20% 20% 20%"
       },
       bracket8: {
         mainColumn: "20% 15% 15% 15% 15% 20%",
         column: [1, 1, 1, 1, 6, 6, 6, 6, 2, 2, 5, 5, 3, 4],
         row: [1, 2, 4, 5, 1, 2, 4, 5, 2, 4, 2, 4, 3, 3],
+        match: [8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 13, 12],
         mainRow: "20% 20% 20% 20% 20%"
       },
       bracket16: {
@@ -173,6 +175,38 @@ class App extends React.Component {
           6,
           6
         ],
+        match: [
+          16,
+          16,
+          17,
+          17,
+          18,
+          18,
+          19,
+          19,
+          20,
+          20,
+          21,
+          21,
+          22,
+          22,
+          23,
+          23,
+          24,
+          24,
+          25,
+          25,
+          26,
+          26,
+          27,
+          27,
+          28,
+          28,
+          29,
+          29,
+          29,
+          28
+        ],
         mainRow: "9% 9% 9% 9% 9% 9% 9% 9% 9% 9% 9%"
       }
     };
@@ -203,6 +237,29 @@ class App extends React.Component {
           index === arrLength - 4 ||
           index === arrLength - 5 ||
           index === arrLength - 6 ||
+          !newNames.indexOf(this.state.newName) < 0 ||
+          index < 0
+        ) {
+          index = Math.floor(Math.random() * arrLength - 1);
+        }
+      }
+      if (arrLength === 30) {
+        while (
+          newNames[index] !== undefined ||
+          index === arrLength - 1 ||
+          index === arrLength - 2 ||
+          index === arrLength - 3 ||
+          index === arrLength - 4 ||
+          index === arrLength - 5 ||
+          index === arrLength - 6 ||
+          index === arrLength - 7 ||
+          index === arrLength - 8 ||
+          index === arrLength - 9 ||
+          index === arrLength - 10 ||
+          index === arrLength - 11 ||
+          index === arrLength - 12 ||
+          index === arrLength - 13 ||
+          index === arrLength - 14 ||
           !newNames.indexOf(this.state.newName) < 0 ||
           index < 0
         ) {
@@ -257,147 +314,60 @@ class App extends React.Component {
     let numBracket = this.state.numOfSeeds;
     let clickedArr = this.state.isClicked;
     if (text !== undefined) {
-      if (key === 0 && clickedArr[key + 1] !== "gold") {
-        newArr[parseInt(numBracket, 10)] = arr[key];
-        newArr[key] = undefined;
-        clickedArr[key] = "gold";
-        clickedArr[key + 1] = "red";
-      }
-      if (key === 1 && clickedArr[key - 1] !== "gold") {
-        newArr[parseInt(numBracket, 10)] = arr[key];
-        newArr[key] = undefined;
-        clickedArr[key] = "gold";
-        clickedArr[key - 1] = "red";
-      }
-      if (key === 2 && clickedArr[key + 1] !== "gold") {
-        newArr[parseInt(numBracket, 10) + 1] = arr[key];
-        newArr[key] = undefined;
-        clickedArr[key] = "gold";
-        clickedArr[key + 1] = "red";
-      }
-      if (key === 3 && clickedArr[key - 1] !== "gold") {
-        newArr[parseInt(numBracket, 10) + 1] = arr[key];
-        newArr[key] = undefined;
-        clickedArr[key] = "gold";
-        clickedArr[key - 1] = "red";
-      }
       if (
-        key === 4 &&
-        clickedArr[key + 1] !== "gold" &&
         newArr[key + 1] !== undefined &&
-        this.state.numOfSeeds === "4"
-      ) {
-        clickedArr[key] = "gold";
-        clickedArr[key + 1] = "red";
-      }
-      if (
-        key === 4 &&
+        key % 2 === 0 &&
         clickedArr[key + 1] !== "gold" &&
-        newArr[key + 1] !== undefined &&
-        this.state.numOfSeeds === "8"
-      ) {
-        newArr[key + 6] = arr[key];
-        newArr[key] = undefined;
-        clickedArr[key] = "gold";
-        clickedArr[key + 1] = "red";
-      }
-      if (
-        key === 5 &&
-        clickedArr[key - 1] !== "gold" &&
-        newArr[key - 1] !== undefined &&
         numBracket === "4"
       ) {
+        newArr[this.state.bracket4.match[key]] = arr[key];
         clickedArr[key] = "gold";
-        clickedArr[key - 1] = "red";
-      }
-      if (
-        key === 5 &&
-        clickedArr[key - 1] !== "gold" &&
+        clickedArr[key + 1] = "red";
+      } else if (
         newArr[key - 1] !== undefined &&
-        numBracket === "8"
+        key % 2 !== 0 &&
+        clickedArr[key - 1] !== "gold" &&
+        numBracket === "4"
       ) {
-        newArr[key + 5] = arr[key];
-        newArr[key] = undefined;
+        newArr[this.state.bracket4.match[key]] = arr[key];
         clickedArr[key] = "gold";
         clickedArr[key - 1] = "red";
       }
       if (
-        key === 6 &&
-        clickedArr[key + 1] !== "gold" &&
         newArr[key + 1] !== undefined &&
+        key % 2 === 0 &&
+        clickedArr[key + 1] !== "gold" &&
         numBracket === "8"
       ) {
-        newArr[key + 5] = arr[key];
-        newArr[key] = undefined;
+        newArr[this.state.bracket8.match[key]] = arr[key];
         clickedArr[key] = "gold";
         clickedArr[key + 1] = "red";
-      }
-      if (
-        key === 7 &&
-        clickedArr[key - 1] !== "gold" &&
+      } else if (
         newArr[key - 1] !== undefined &&
+        key % 2 !== 0 &&
+        clickedArr[key - 1] !== "gold" &&
         numBracket === "8"
       ) {
-        newArr[key + 4] = arr[key];
-        newArr[key] = undefined;
+        newArr[this.state.bracket8.match[key]] = arr[key];
         clickedArr[key] = "gold";
         clickedArr[key - 1] = "red";
       }
       if (
-        key === 8 &&
-        clickedArr[key + 1] !== "gold" &&
-        newArr[key + 1] !== undefined
-      ) {
-        newArr[12] = arr[key];
-        newArr[key] = undefined;
-        clickedArr[key] = "gold";
-        clickedArr[key + 1] = "red";
-      }
-      if (
-        key === 9 &&
-        clickedArr[key - 1] !== "gold" &&
-        newArr[key - 1] !== undefined
-      ) {
-        newArr[12] = arr[key];
-        newArr[key] = undefined;
-        clickedArr[key] = "gold";
-        clickedArr[key - 1] = "red";
-      }
-      if (
-        key === 10 &&
-        clickedArr[key + 1] !== "gold" &&
-        newArr[key + 1] !== undefined
-      ) {
-        newArr[13] = arr[key];
-        newArr[key] = undefined;
-        clickedArr[key] = "gold";
-        clickedArr[key + 1] = "red";
-      }
-      if (
-        key === 11 &&
-        clickedArr[key - 1] !== "gold" &&
-        newArr[key - 1] !== undefined
-      ) {
-        newArr[13] = arr[key];
-        newArr[key] = undefined;
-        clickedArr[key] = "gold";
-        clickedArr[key - 1] = "red";
-      }
-      if (
-        key === 12 &&
-        clickedArr[key + 1] !== "gold" &&
         newArr[key + 1] !== undefined &&
-        numBracket === "8"
+        key % 2 === 0 &&
+        clickedArr[key + 1] !== "gold" &&
+        numBracket === "16"
       ) {
+        newArr[this.state.bracket16.match[key]] = arr[key];
         clickedArr[key] = "gold";
         clickedArr[key + 1] = "red";
-      }
-      if (
-        key === 13 &&
-        clickedArr[key - 1] !== "gold" &&
+      } else if (
         newArr[key - 1] !== undefined &&
-        numBracket === "8"
+        key % 2 !== 0 &&
+        clickedArr[key - 1] !== "gold" &&
+        numBracket === "16"
       ) {
+        newArr[this.state.bracket16.match[key]] = arr[key];
         clickedArr[key] = "gold";
         clickedArr[key - 1] = "red";
       }
@@ -431,6 +401,29 @@ class App extends React.Component {
         index === arrLength - 4 ||
         index === arrLength - 5 ||
         index === arrLength - 6 ||
+        !newNames.indexOf(this.state.newName) < 0 ||
+        index < 0
+      ) {
+        index = Math.floor(Math.random() * arrLength - 1);
+      }
+    }
+    if (arrLength === 30) {
+      while (
+        newNames[index] !== undefined ||
+        index === arrLength - 1 ||
+        index === arrLength - 2 ||
+        index === arrLength - 3 ||
+        index === arrLength - 4 ||
+        index === arrLength - 5 ||
+        index === arrLength - 6 ||
+        index === arrLength - 7 ||
+        index === arrLength - 8 ||
+        index === arrLength - 9 ||
+        index === arrLength - 10 ||
+        index === arrLength - 11 ||
+        index === arrLength - 12 ||
+        index === arrLength - 13 ||
+        index === arrLength - 14 ||
         !newNames.indexOf(this.state.newName) < 0 ||
         index < 0
       ) {
