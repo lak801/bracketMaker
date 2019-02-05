@@ -1,11 +1,22 @@
 .heading {
   width: 100%;
-  background-color: aqua;
+  background-color: #ffaff0;
+  color: #4d5b55;
 }
 
-.heading input,
-.heading button,
-.heading select {
-  margin: auto;
-  display: block;
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+.size-label {
+  display: inline-block;
+  padding: 2px;
+}
+
+.intro-components {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

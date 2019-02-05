@@ -4,17 +4,20 @@ import ReactDOM from "react-dom";
 
 import "./styles.css";
 let Competitor = styled.button`
-  color: white;
+  color: #f7e6f0;
   font-size: 20px;
   text-align: center;
   grid-column-start: ${props => props.indexOfColumn};
   grid-row-start: ${props => props.indexOfRow};
   background-color: ${props => props.isClicked};
+  margin: 5px;
+  border: 2px solid #151221;
 `;
+
 const Main = styled.div`
   grid-template-columns: ${props => props.mainIndexOfColumn};
   grid-template-rows: ${props => props.mainIndexOfRow};
-  background-color: #2196f3;
+  background-color: #392f5a;
   display: grid;
   height: 100vh;
   text-align: center;
@@ -22,21 +25,29 @@ const Main = styled.div`
 
 function Input(props) {
   return (
-    <div>
-      <select onChange={props.onChange}>
-        <option />
-        <option value="4">4</option>
-        <option value="8">8</option>
-        <option value="16">16</option>
-      </select>
-      <input
-        type="text"
-        id="number"
-        placeholder="    Input Your Competitors"
-        onChange={props.onChangeOfInput}
-        onKeyPress={props.onEnter}
-      />
-      <button onClick={props.onClick}>Input!</button>
+    <div className="intro-components">
+      <h1>Tournament Bracket</h1>
+      <div className="size-label">
+        <h5>Choose your Size!</h5>
+      </div>
+      <div className="size-label">
+        <select onChange={props.onChange}>
+          <option value="undefined" />
+          <option value="4">4</option>
+          <option value="8">8</option>
+          <option value="16">16</option>
+        </select>
+      </div>
+      <div>
+        <input
+          type="text"
+          id="number"
+          placeholder="    Input Your Competitors"
+          onChange={props.onChangeOfInput}
+          onKeyPress={props.onEnter}
+        />
+        <button onClick={props.onClick}>Input!</button>
+      </div>
     </div>
   );
 }
@@ -287,23 +298,31 @@ class App extends React.Component {
       numOfSeeds: newNum
     });
 
+    if (newNum === "undefined") {
+      this.setState({
+        names: [],
+        class: "",
+        isClicked: []
+      });
+    }
+
     if (newNum === "4") {
       this.setState({
         names: Array(6).fill(),
         class: "bracket4",
-        isClicked: Array(6).fill("blue")
+        isClicked: Array(6).fill("#A8C7BB")
       });
     }
     if (newNum === "8") {
       this.setState({
         names: Array(14).fill(),
-        isClicked: Array(14).fill("blue")
+        isClicked: Array(14).fill("#A8C7BB")
       });
     }
     if (newNum === "16") {
       this.setState({
         names: Array(30).fill(),
-        isClicked: Array(30).fill("blue")
+        isClicked: Array(30).fill("#A8C7BB")
       });
     }
   }
@@ -391,8 +410,7 @@ class App extends React.Component {
       ) {
         index = Math.floor(Math.random() * arrLength - 1);
       }
-    }
-    if (arrLength === 14) {
+    } else if (arrLength === 14) {
       while (
         newNames[index] !== undefined ||
         index === arrLength - 1 ||
@@ -406,8 +424,7 @@ class App extends React.Component {
       ) {
         index = Math.floor(Math.random() * arrLength - 1);
       }
-    }
-    if (arrLength === 30) {
+    } else if (arrLength === 30) {
       while (
         newNames[index] !== undefined ||
         index === arrLength - 1 ||
