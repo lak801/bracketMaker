@@ -17,7 +17,7 @@ let Competitor = styled.button`
 const Main = styled.div`
   grid-template-columns: ${props => props.mainIndexOfColumn};
   grid-template-rows: ${props => props.mainIndexOfRow};
-  background-color: #392f5a;
+  background-color: #edd1ee;
   display: grid;
   height: 100vh;
   text-align: center;
@@ -42,7 +42,8 @@ function Input(props) {
         <input
           type="text"
           id="number"
-          placeholder="    Input Your Competitors"
+          value={props.newName}
+          placeholder="Input Your Competitors"
           onChange={props.onChangeOfInput}
           onKeyPress={props.onEnter}
         />
@@ -60,6 +61,7 @@ class App extends React.Component {
         onChange={e => this.handleChange(e)}
         onClick={e => this.handleClickOfInput(e)}
         onEnter={e => this.handleEnter(e)}
+        newName={this.state.newName}
       />
     );
   }
@@ -215,8 +217,8 @@ class App extends React.Component {
           28,
           29,
           29,
-          29,
-          28
+          28,
+          29
         ],
         mainRow: "9% 9% 9% 9% 9% 9% 9% 9% 9% 9% 9%"
       }
@@ -238,8 +240,7 @@ class App extends React.Component {
         ) {
           index = Math.floor(Math.random() * arrLength - 1);
         }
-      }
-      if (arrLength === 14) {
+      } else if (arrLength === 14) {
         while (
           newNames[index] !== undefined ||
           index === arrLength - 1 ||
@@ -253,8 +254,7 @@ class App extends React.Component {
         ) {
           index = Math.floor(Math.random() * arrLength - 1);
         }
-      }
-      if (arrLength === 30) {
+      } else if (arrLength === 30) {
         while (
           newNames[index] !== undefined ||
           index === arrLength - 1 ||
@@ -276,11 +276,17 @@ class App extends React.Component {
         ) {
           index = Math.floor(Math.random() * arrLength - 1);
         }
+      } else {
+        index = undefined;
       }
-
-      newNames.splice(index, 1, this.state.newName);
+      if (index !== undefined) {
+        newNames.splice(index, 1, this.state.newName);
+        this.setState({
+          names: newNames
+        });
+      }
       this.setState({
-        names: newNames
+        newName: ""
       });
     }
   }
@@ -310,19 +316,19 @@ class App extends React.Component {
       this.setState({
         names: Array(6).fill(),
         class: "bracket4",
-        isClicked: Array(6).fill("#A8C7BB")
+        isClicked: Array(6).fill("#9B88B4")
       });
     }
     if (newNum === "8") {
       this.setState({
         names: Array(14).fill(),
-        isClicked: Array(14).fill("#A8C7BB")
+        isClicked: Array(14).fill("#9B88B4")
       });
     }
     if (newNum === "16") {
       this.setState({
         names: Array(30).fill(),
-        isClicked: Array(30).fill("#A8C7BB")
+        isClicked: Array(30).fill("#9B88B4")
       });
     }
   }
@@ -336,58 +342,58 @@ class App extends React.Component {
       if (
         newArr[key + 1] !== undefined &&
         key % 2 === 0 &&
-        clickedArr[key + 1] !== "gold" &&
+        clickedArr[key + 1] !== "green" &&
         numBracket === "4"
       ) {
         newArr[this.state.bracket4.match[key]] = arr[key];
-        clickedArr[key] = "gold";
+        clickedArr[key] = "green";
         clickedArr[key + 1] = "red";
       } else if (
         newArr[key - 1] !== undefined &&
         key % 2 !== 0 &&
-        clickedArr[key - 1] !== "gold" &&
+        clickedArr[key - 1] !== "green" &&
         numBracket === "4"
       ) {
         newArr[this.state.bracket4.match[key]] = arr[key];
-        clickedArr[key] = "gold";
+        clickedArr[key] = "green";
         clickedArr[key - 1] = "red";
       }
       if (
         newArr[key + 1] !== undefined &&
         key % 2 === 0 &&
-        clickedArr[key + 1] !== "gold" &&
+        clickedArr[key + 1] !== "green" &&
         numBracket === "8"
       ) {
         newArr[this.state.bracket8.match[key]] = arr[key];
-        clickedArr[key] = "gold";
+        clickedArr[key] = "green";
         clickedArr[key + 1] = "red";
       } else if (
         newArr[key - 1] !== undefined &&
         key % 2 !== 0 &&
-        clickedArr[key - 1] !== "gold" &&
+        clickedArr[key - 1] !== "green" &&
         numBracket === "8"
       ) {
         newArr[this.state.bracket8.match[key]] = arr[key];
-        clickedArr[key] = "gold";
+        clickedArr[key] = "green";
         clickedArr[key - 1] = "red";
       }
       if (
         newArr[key + 1] !== undefined &&
         key % 2 === 0 &&
-        clickedArr[key + 1] !== "gold" &&
+        clickedArr[key + 1] !== "green" &&
         numBracket === "16"
       ) {
         newArr[this.state.bracket16.match[key]] = arr[key];
-        clickedArr[key] = "gold";
+        clickedArr[key] = "green";
         clickedArr[key + 1] = "red";
       } else if (
         newArr[key - 1] !== undefined &&
         key % 2 !== 0 &&
-        clickedArr[key - 1] !== "gold" &&
+        clickedArr[key - 1] !== "green" &&
         numBracket === "16"
       ) {
         newArr[this.state.bracket16.match[key]] = arr[key];
-        clickedArr[key] = "gold";
+        clickedArr[key] = "green";
         clickedArr[key - 1] = "red";
       }
     }
@@ -400,58 +406,64 @@ class App extends React.Component {
     const newNames = this.state.names;
     const arrLength = this.state.names.length;
     let index = Math.floor(Math.random() * arrLength - 1);
-    if (arrLength === 6) {
-      while (
-        newNames[index] !== undefined ||
-        index === arrLength - 1 ||
-        index === arrLength - 2 ||
-        !newNames.indexOf(this.state.newName) < 0 ||
-        index < 0
-      ) {
-        index = Math.floor(Math.random() * arrLength - 1);
+    console.log(e.target.value);
+    if (this.state.newName !== "") {
+      if (arrLength === 6) {
+        while (
+          newNames[index] !== undefined ||
+          index === arrLength - 1 ||
+          index === arrLength - 2 ||
+          !newNames.indexOf(this.state.newName) < 0 ||
+          index < 0
+        ) {
+          index = Math.floor(Math.random() * arrLength - 1);
+        }
+      } else if (arrLength === 14) {
+        while (
+          newNames[index] !== undefined ||
+          index === arrLength - 1 ||
+          index === arrLength - 2 ||
+          index === arrLength - 3 ||
+          index === arrLength - 4 ||
+          index === arrLength - 5 ||
+          index === arrLength - 6 ||
+          !newNames.indexOf(this.state.newName) < 0 ||
+          index < 0
+        ) {
+          index = Math.floor(Math.random() * arrLength - 1);
+        }
+      } else if (arrLength === 30) {
+        while (
+          newNames[index] !== undefined ||
+          index === arrLength - 1 ||
+          index === arrLength - 2 ||
+          index === arrLength - 3 ||
+          index === arrLength - 4 ||
+          index === arrLength - 5 ||
+          index === arrLength - 6 ||
+          index === arrLength - 7 ||
+          index === arrLength - 8 ||
+          index === arrLength - 9 ||
+          index === arrLength - 10 ||
+          index === arrLength - 11 ||
+          index === arrLength - 12 ||
+          index === arrLength - 13 ||
+          index === arrLength - 14 ||
+          !newNames.indexOf(this.state.newName) < 0 ||
+          index < 0
+        ) {
+          index = Math.floor(Math.random() * arrLength - 1);
+        }
+      } else {
+        index = undefined;
       }
-    } else if (arrLength === 14) {
-      while (
-        newNames[index] !== undefined ||
-        index === arrLength - 1 ||
-        index === arrLength - 2 ||
-        index === arrLength - 3 ||
-        index === arrLength - 4 ||
-        index === arrLength - 5 ||
-        index === arrLength - 6 ||
-        !newNames.indexOf(this.state.newName) < 0 ||
-        index < 0
-      ) {
-        index = Math.floor(Math.random() * arrLength - 1);
-      }
-    } else if (arrLength === 30) {
-      while (
-        newNames[index] !== undefined ||
-        index === arrLength - 1 ||
-        index === arrLength - 2 ||
-        index === arrLength - 3 ||
-        index === arrLength - 4 ||
-        index === arrLength - 5 ||
-        index === arrLength - 6 ||
-        index === arrLength - 7 ||
-        index === arrLength - 8 ||
-        index === arrLength - 9 ||
-        index === arrLength - 10 ||
-        index === arrLength - 11 ||
-        index === arrLength - 12 ||
-        index === arrLength - 13 ||
-        index === arrLength - 14 ||
-        !newNames.indexOf(this.state.newName) < 0 ||
-        index < 0
-      ) {
-        index = Math.floor(Math.random() * arrLength - 1);
+      if (index !== undefined) {
+        newNames.splice(index, 1, this.state.newName);
+        this.setState({
+          names: newNames
+        });
       }
     }
-
-    newNames.splice(index, 1, this.state.newName);
-    this.setState({
-      names: newNames
-    });
   }
 
   render() {
