@@ -3,6 +3,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import "./styles.css";
+//this is the styled component for the competitor which is just a button
+
+//i pass it props of css grid so that it the positions of the buttons can just be placed
+//in their correct spot no matter the size of the bracket
 let Competitor = styled.button`
   color: #f7e6f0;
   font-size: 20px;
@@ -14,6 +18,8 @@ let Competitor = styled.button`
   border: 2px solid #151221;
 `;
 
+//i made main a styled component kind of just for fun... but it also uses grid props for
+//the different grids I used
 const Main = styled.div`
   grid-template-columns: ${props => props.mainIndexOfColumn};
   grid-template-rows: ${props => props.mainIndexOfRow};
@@ -23,6 +29,8 @@ const Main = styled.div`
   text-align: center;
 `;
 
+//I just needed an input component without any state so here it is. But props are passed
+//into the input and input button for things such as a change or button click
 function Input(props) {
   return (
     <div className="intro-components">
@@ -54,6 +62,7 @@ function Input(props) {
 }
 
 class App extends React.Component {
+  //input is rendered in App
   renderInput() {
     return (
       <Input
@@ -66,6 +75,9 @@ class App extends React.Component {
     );
   }
 
+  //this does the work of rendering the buttons in Main
+
+  //it allows the competitor to have indexes for css, onClick function, and a key
   listBrackets() {
     let bracketType = this.state.bracket4;
     if (this.state.numOfSeeds === "4") {
@@ -99,6 +111,10 @@ class App extends React.Component {
       </Main>
     );
   }
+
+  //this has the grid properties for each bracket
+
+  //match is used to decide where the button's text should move to next
   constructor(props) {
     super(props);
     this.state = {
@@ -225,13 +241,17 @@ class App extends React.Component {
     };
   }
 
+  //functionality to enter key
+  //does the same thing as input button
   handleEnter(e) {
     if (e.key === "Enter") {
       const newNames = this.state.names;
       const arrLength = this.state.names.length;
       let index = Math.floor(Math.random() * arrLength - 1);
       if (arrLength === 6) {
+        //checks length of array
         while (
+          //as long as they are the outside seeds then randomly put the name in it
           newNames[index] !== undefined ||
           index === arrLength - 1 ||
           index === arrLength - 2 ||
@@ -280,7 +300,7 @@ class App extends React.Component {
         index = undefined;
       }
       if (index !== undefined) {
-        newNames.splice(index, 1, this.state.newName);
+        newNames.splice(index, 1, this.state.newName); //update state of names array
         this.setState({
           names: newNames
         });
@@ -290,14 +310,14 @@ class App extends React.Component {
       });
     }
   }
-
+  //when the input is being changed, update the string of new name
   handleChangeOfInput(e) {
     const name = e.target.value;
     this.setState({
       newName: name
     });
   }
-
+  //updates the number of seeds chosen
   handleChange(e) {
     let newNum = e.target.value;
     this.setState({
@@ -313,6 +333,7 @@ class App extends React.Component {
     }
 
     if (newNum === "4") {
+      //depending on the seed, fills the arrays with the correct amount of buttons.
       this.setState({
         names: Array(6).fill(),
         class: "bracket4",
@@ -332,7 +353,7 @@ class App extends React.Component {
       });
     }
   }
-  //maybe rule sets or uses key plus one and minus one only
+
   handleClickOfSeed(e, key, text) {
     let arr = this.state.names;
     let newArr = this.state.names;
@@ -345,9 +366,9 @@ class App extends React.Component {
         clickedArr[key + 1] !== "green" &&
         numBracket === "4"
       ) {
-        newArr[this.state.bracket4.match[key]] = arr[key];
+        newArr[this.state.bracket4.match[key]] = arr[key]; //this algorithm decides where the name should go once clicked.
         clickedArr[key] = "green";
-        clickedArr[key + 1] = "red";
+        clickedArr[key + 1] = "red"; //uses key plus or minus one and also depends on the bracket size
       } else if (
         newArr[key - 1] !== undefined &&
         key % 2 !== 0 &&
@@ -406,64 +427,66 @@ class App extends React.Component {
     const newNames = this.state.names;
     const arrLength = this.state.names.length;
     let index = Math.floor(Math.random() * arrLength - 1);
-    console.log(e.target.value);
-    if (this.state.newName !== "") {
-      if (arrLength === 6) {
-        while (
-          newNames[index] !== undefined ||
-          index === arrLength - 1 ||
-          index === arrLength - 2 ||
-          !newNames.indexOf(this.state.newName) < 0 ||
-          index < 0
-        ) {
-          index = Math.floor(Math.random() * arrLength - 1);
-        }
-      } else if (arrLength === 14) {
-        while (
-          newNames[index] !== undefined ||
-          index === arrLength - 1 ||
-          index === arrLength - 2 ||
-          index === arrLength - 3 ||
-          index === arrLength - 4 ||
-          index === arrLength - 5 ||
-          index === arrLength - 6 ||
-          !newNames.indexOf(this.state.newName) < 0 ||
-          index < 0
-        ) {
-          index = Math.floor(Math.random() * arrLength - 1);
-        }
-      } else if (arrLength === 30) {
-        while (
-          newNames[index] !== undefined ||
-          index === arrLength - 1 ||
-          index === arrLength - 2 ||
-          index === arrLength - 3 ||
-          index === arrLength - 4 ||
-          index === arrLength - 5 ||
-          index === arrLength - 6 ||
-          index === arrLength - 7 ||
-          index === arrLength - 8 ||
-          index === arrLength - 9 ||
-          index === arrLength - 10 ||
-          index === arrLength - 11 ||
-          index === arrLength - 12 ||
-          index === arrLength - 13 ||
-          index === arrLength - 14 ||
-          !newNames.indexOf(this.state.newName) < 0 ||
-          index < 0
-        ) {
-          index = Math.floor(Math.random() * arrLength - 1);
-        }
-      } else {
-        index = undefined;
+    if (arrLength === 6) {
+      //checks length of array
+      while (
+        //as long as they are the outside seeds then randomly put the name in it
+        newNames[index] !== undefined ||
+        index === arrLength - 1 ||
+        index === arrLength - 2 ||
+        !newNames.indexOf(this.state.newName) < 0 ||
+        index < 0
+      ) {
+        index = Math.floor(Math.random() * arrLength - 1);
       }
-      if (index !== undefined) {
-        newNames.splice(index, 1, this.state.newName);
-        this.setState({
-          names: newNames
-        });
+    } else if (arrLength === 14) {
+      while (
+        newNames[index] !== undefined ||
+        index === arrLength - 1 ||
+        index === arrLength - 2 ||
+        index === arrLength - 3 ||
+        index === arrLength - 4 ||
+        index === arrLength - 5 ||
+        index === arrLength - 6 ||
+        !newNames.indexOf(this.state.newName) < 0 ||
+        index < 0
+      ) {
+        index = Math.floor(Math.random() * arrLength - 1);
       }
+    } else if (arrLength === 30) {
+      while (
+        newNames[index] !== undefined ||
+        index === arrLength - 1 ||
+        index === arrLength - 2 ||
+        index === arrLength - 3 ||
+        index === arrLength - 4 ||
+        index === arrLength - 5 ||
+        index === arrLength - 6 ||
+        index === arrLength - 7 ||
+        index === arrLength - 8 ||
+        index === arrLength - 9 ||
+        index === arrLength - 10 ||
+        index === arrLength - 11 ||
+        index === arrLength - 12 ||
+        index === arrLength - 13 ||
+        index === arrLength - 14 ||
+        !newNames.indexOf(this.state.newName) < 0 ||
+        index < 0
+      ) {
+        index = Math.floor(Math.random() * arrLength - 1);
+      }
+    } else {
+      index = undefined;
     }
+    if (index !== undefined) {
+      newNames.splice(index, 1, this.state.newName); //update state of names array
+      this.setState({
+        names: newNames
+      });
+    }
+    this.setState({
+      newName: ""
+    });
   }
 
   render() {
