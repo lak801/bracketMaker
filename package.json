@@ -1,8 +1,8 @@
 {
-  "name": "bracket-maker-project-finished",
+  "name": "tournament-bracket",
   "version": "1.0.0",
-  "description": "",
-  "keywords": [],
+  "description": "This is a Tournament Bracket in React! This is my first project in my react journey that I am actually pretty proud of.",
+  "keywords": ["reactjs", "tournament", "bracket", "react"],
   "main": "src/index.js",
   "dependencies": {
     "react": "16.5.2",
