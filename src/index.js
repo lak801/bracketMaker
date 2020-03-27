@@ -18,7 +18,7 @@ let Competitor = styled.button`
   border: 2px solid #151221;
 `;
 
-//i made main a styled component kind of just for fun... but it also uses grid props for
+//i made main a styled component. It also uses grid props for
 //the different grids I used
 const Main = styled.div`
   grid-template-columns: ${props => props.mainIndexOfColumn};
@@ -29,8 +29,7 @@ const Main = styled.div`
   text-align: center;
 `;
 
-//I just needed an input component without any state so here it is. But props are passed
-//into the input and input button for things such as a change or button click
+//props are passed into the input and input button for things such as a change or button click
 function Input(props) {
   return (
     <div className="intro-components">
@@ -242,6 +241,7 @@ class App extends React.Component {
   }
 
   //functionality to enter key
+
   //does the same thing as input button
   handleEnter(e) {
     if (e.key === "Enter") {
