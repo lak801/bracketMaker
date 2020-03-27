@@ -1,14 +1,19 @@
 {
   "name": "tournament-bracket",
   "version": "1.0.0",
-  "description": "This is a Tournament Bracket in React! This is my first project in my react journey that I am actually pretty proud of.",
-  "keywords": ["reactjs", "tournament", "bracket", "react"],
+  "description": "This is a Tournament Bracket in React! It is my first project in my react journey that I am actually pretty proud of.",
+  "keywords": [
+    "reactjs",
+    "tournament",
+    "bracket",
+    "react"
+  ],
   "main": "src/index.js",
   "dependencies": {
-    "react": "16.5.2",
-    "react-dom": "16.5.2",
-    "react-scripts": "2.0.3",
-    "styled-components": "4.1.3"
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-scripts": "3.4.1",
+    "styled-components": "4.4.1"
   },
   "devDependencies": {},
   "scripts": {
@@ -17,5 +22,10 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
