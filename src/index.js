@@ -11,26 +11,25 @@ let Competitor = styled.button`
   color: #f7e6f0;
   font-size: 20px;
   text-align: center;
-  grid-column-start: ${props => props.indexOfColumn};
-  grid-row-start: ${props => props.indexOfRow};
-  background-color: ${props => props.isClicked};
+  grid-column-start: ${(props) => props.indexOfColumn};
+  grid-row-start: ${(props) => props.indexOfRow};
+  background-color: ${(props) => props.isClicked};
   margin: 5px;
   border: 2px solid #151221;
 `;
 
-//i made main a styled component kind of just for fun... but it also uses grid props for
+//i made main a styled component. It also uses grid props for
 //the different grids I used
 const Main = styled.div`
-  grid-template-columns: ${props => props.mainIndexOfColumn};
-  grid-template-rows: ${props => props.mainIndexOfRow};
+  grid-template-columns: ${(props) => props.mainIndexOfColumn};
+  grid-template-rows: ${(props) => props.mainIndexOfRow};
   background-color: #edd1ee;
   display: grid;
   height: 100vh;
   text-align: center;
 `;
 
-//I just needed an input component without any state so here it is. But props are passed
-//into the input and input button for things such as a change or button click
+//props are passed into the input and input button for things such as a change or button click
 function Input(props) {
   return (
     <div className="intro-components">
@@ -66,10 +65,10 @@ class App extends React.Component {
   renderInput() {
     return (
       <Input
-        onChangeOfInput={e => this.handleChangeOfInput(e)}
-        onChange={e => this.handleChange(e)}
-        onClick={e => this.handleClickOfInput(e)}
-        onEnter={e => this.handleEnter(e)}
+        onChangeOfInput={(e) => this.handleChangeOfInput(e)}
+        onChange={(e) => this.handleChange(e)}
+        onClick={(e) => this.handleClickOfInput(e)}
+        onEnter={(e) => this.handleEnter(e)}
         newName={this.state.newName}
       />
     );
@@ -96,7 +95,7 @@ class App extends React.Component {
           indexOfRow={bracketType.row[key]}
           key={key}
           isClicked={this.state.isClicked[key]}
-          onClick={e => this.handleClickOfSeed(e, key, text)}
+          onClick={(e) => this.handleClickOfSeed(e, key, text)}
         >
           {text}
         </Competitor>
@@ -242,6 +241,7 @@ class App extends React.Component {
   }
 
   //functionality to enter key
+
   //does the same thing as input button
   handleEnter(e) {
     if (e.key === "Enter") {
