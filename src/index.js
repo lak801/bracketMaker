@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -248,6 +248,7 @@ class App extends React.Component {
       const newNames = this.state.names;
       const arrLength = this.state.names.length;
       let index = Math.floor(Math.random() * arrLength - 1);
+      console.log(index);
       if (arrLength === 6) {
         //checks length of array
         while (
